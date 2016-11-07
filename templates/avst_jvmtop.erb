@@ -1,0 +1,14 @@
+#!/bin/bash
+INSTANCE_NAME=$1
+if [[ -z "${INSTANCE_NAME}" ]]; then
+    echo "Usage: avst_jvmtop <INSTANCE_NAME>"
+    exit 1
+fi
+INSTANCE_PID=`avst-app ${INSTANCE_NAME} get-pid | grep 'common/get-pid' | sed -E 's/common\/get-pid:.*is\ //'`
+echo "----------Pid returned-----"
+echo $INSTANCE_PID
+if [[ -z "${INSTANCE_PID}" ]]; then
+   echo "Instance not found, check previous avstapp log."
+   exit 1
+fi
+sh <%= "#{extract_location}/jvmtop.sh ${INSTANCE_PID}" %>
