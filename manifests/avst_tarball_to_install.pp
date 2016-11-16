@@ -18,6 +18,7 @@ define avst_tools_installations::avst_tarball_to_install (
       "download_${name}_tarball":
           command   => "cd ${download_location} && ${download_command} ${download_url}",
           logoutput => on_failure,
+          unless => ["test -f ${download_location}/${tarball_file_name}"],
   } ->
   exec {
       "extract_${name}_tarball":
