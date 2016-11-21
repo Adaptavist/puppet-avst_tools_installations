@@ -7,9 +7,11 @@ define avst_tools_installations::avst_package_to_install(
     $script_group         = 'root',
     $script_mask          = '0666',
 ) {
-  
-    package { $name:
-          ensure => $package_ensure,
+    
+    if (!defined(Package[$name])) {
+        package { $name:
+              ensure => $package_ensure,
+        }
     }
 
     if (str2bool($create_script)){
