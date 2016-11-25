@@ -14,11 +14,15 @@ if [[ -z "${INSTANCE_PID}" ]]; then
    echo "ERROR: Instance not found, check previous avstapp log."
    exit 1
 fi
-if [[ `ps ax | grep ${INSTANCE_PID} | grep '\-Dcom.sun.management.jmxremote' | wc -l` == 0 ]]; then
-    echo "ERROR: Make sure java process is running with -Dcom.sun.management.jmxremote option set"
-    exit 2
-fi
+
+INSTANCE_USER_LINE=`grep INSTANCE_USER /opt/${INSTANCE_NAME}/avst-app.cfg.sh`
+RUN_AS_USER=`echo ${INSTANCE_USER_LINE:-hosting} | sed s/'INSTANCE_USER=//g'`
+
 JAVA_HOME=`readlink -f \`which java 2>/dev/null\` 2>/dev/null | sed 's/\/bin\/java//'`
 cd "${JAVA_HOME}"
-./bin/jstat -gc "${INSTANCE_PID}"
+if [[ `whoami` == "${RUN_AS_USER}" ]]; then
+    ./bin/jstat -gc "${INSTANCE_PID}"
+else
+    sudo -u "${RUN_AS_USER}" ./bin/jstat -gc "${INSTANCE_PID}"
+fi
 cd "${CURRENT_DIR}"

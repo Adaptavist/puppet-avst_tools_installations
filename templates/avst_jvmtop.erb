@@ -12,9 +12,14 @@ if [[ -z "${INSTANCE_PID}" ]]; then
    exit 1
 fi
 
-if [[ `ps ax | grep ${INSTANCE_PID} | grep '\-Dcom.sun.management.jmxremote' | wc -l` == 0 ]]; then
-    echo "ERROR: Make sure java process is running with -Dcom.sun.management.jmxremote option set"
-    exit 2
+INSTANCE_USER_LINE=`grep INSTANCE_USER /opt/${INSTANCE_NAME}/avst-app.cfg.sh`
+RUN_AS_USER=`echo ${INSTANCE_USER_LINE:-hosting} | sed s/'INSTANCE_USER=//g'`
+
+if [[ `whoami` == "${RUN_AS_USER}" ]]; then
+    sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+else
+    sudo -u "${RUN_AS_USER}" sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
 fi
 
-sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+
+
