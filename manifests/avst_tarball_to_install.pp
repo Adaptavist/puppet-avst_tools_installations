@@ -5,7 +5,7 @@ define avst_tools_installations::avst_tarball_to_install (
   $extract_command      = 'tar -zxvf',
   $extract_location     = '/usr/share',
   $create_script        = 'false',
-  $script_path          = '/usr/bin/avst_jvmtop.sh',
+  $script_path          = '/usr/bin/avst_jvmtop',
   $script_template_path = 'avst_tools_installations/avst_jvmtop.erb',
   $script_user          = 'root',
   $script_group         = 'root',

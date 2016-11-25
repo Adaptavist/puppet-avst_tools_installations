@@ -1,7 +1,10 @@
 #!/bin/bash
 INSTANCE_NAME=$1
+PARAMS=$2
+PARAMS="${PARAMS:-'-gc'}"
+CURRENT_DIR=`pwd`
 if [[ -z "${INSTANCE_NAME}" ]]; then
-    echo "Usage: avst_jvmtop <INSTANCE_NAME>"
+    echo "Usage: avst_jstat <INSTANCE_NAME> <PARAMS:-'-gc'>"
     exit 1
 fi
 INSTANCE_PID=`avst-app ${INSTANCE_NAME} get-pid | grep 'common/get-pid' | sed -E 's/common\/get-pid:.*is\ //'`
@@ -15,11 +18,11 @@ fi
 INSTANCE_USER_LINE=`grep INSTANCE_USER /opt/${INSTANCE_NAME}/avst-app.cfg.sh`
 RUN_AS_USER=`echo ${INSTANCE_USER_LINE:-hosting} | sed s/'INSTANCE_USER=//g'`
 
+JAVA_HOME=`readlink -f \`which java 2>/dev/null\` 2>/dev/null | sed 's/\/bin\/java//'`
+cd "${JAVA_HOME}"
 if [[ `whoami` == "${RUN_AS_USER}" ]]; then
-    sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+    ./bin/jstat -gc "${INSTANCE_PID}"
 else
-    sudo -u "${RUN_AS_USER}" sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+    sudo -u "${RUN_AS_USER}" ./bin/jstat -gc "${INSTANCE_PID}"
 fi
-
-
-
+cd "${CURRENT_DIR}"

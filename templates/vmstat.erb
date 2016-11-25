@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Usage: ${0} <interval:-1> <count:-''>"
+echo "Various event counters and memory statistics:"
+vmstat -s
+echo "Summary statistics about disk activity:"
+vmstat -D
+echo "Active and inactive memory:"
+vmstat -a ${1:-1} ${2:-''}
+
