@@ -5,7 +5,7 @@ define avst_tools_installations::avst_package_to_install(
     $script_template_path = '',
     $script_user          = 'root',
     $script_group         = 'root',
-    $script_mask          = '0666',
+    $script_mask          = '755',
 ) {
     
     if (!defined(Package[$name])) {

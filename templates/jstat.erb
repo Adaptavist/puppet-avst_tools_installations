@@ -1,7 +1,10 @@
 #!/bin/bash
 INSTANCE_NAME=$1
+PARAMS=$2
+PARAMS="${PARAMS:-'-gc'}"
+CURRENT_DIR=`pwd`
 if [[ -z "${INSTANCE_NAME}" ]]; then
-    echo "Usage: avst_jvmtop <INSTANCE_NAME>"
+    echo "Usage: avst_jstat <INSTANCE_NAME> <PARAMS:-'-gc'>"
     exit 1
 fi
 INSTANCE_PID=`avst-app ${INSTANCE_NAME} get-pid | grep 'common/get-pid' | sed -E 's/common\/get-pid:.*is\ //'`
@@ -11,10 +14,11 @@ if [[ -z "${INSTANCE_PID}" ]]; then
    echo "ERROR: Instance not found, check previous avstapp log."
    exit 1
 fi
-
 if [[ `ps ax | grep ${INSTANCE_PID} | grep '\-Dcom.sun.management.jmxremote' | wc -l` == 0 ]]; then
     echo "ERROR: Make sure java process is running with -Dcom.sun.management.jmxremote option set"
     exit 2
 fi
-
-sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+JAVA_HOME=`readlink -f \`which java 2>/dev/null\` 2>/dev/null | sed 's/\/bin\/java//'`
+cd "${JAVA_HOME}"
+./bin/jstat -gc "${INSTANCE_PID}"
+cd "${CURRENT_DIR}"
