@@ -8,7 +8,8 @@ tarballs = {
         }
 packages = { 
         'jvmtop' => {
-          'package_ensure' => 'latest' 
+          'package_ensure' => 'latest',
+          'package_name' => 'package'
           }
         }
 

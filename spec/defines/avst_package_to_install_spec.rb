@@ -7,6 +7,9 @@ describe 'avst_tools_installations::avst_package_to_install', :type => 'define' 
     let('title'){package_to_install}
 
     context "Should install package and not create script by default" do
+        let(:params){{
+            'package_name' => package_to_install,
+        }}
         it do
             should contain_package(package_to_install).with(
                 'ensure' => package_ensure,

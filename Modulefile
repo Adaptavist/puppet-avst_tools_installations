@@ -1,5 +1,5 @@
 name 'adaptavist-avst_tools_installations'
-version '0.0.3'
+version '0.0.4'
 source 'https://github.com/Adaptavist/puppet-avst_tools_installations.git'
 author 'adaptavist'
 summary 'avst_tools_installations puppet module' 
