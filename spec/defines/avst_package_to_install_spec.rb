@@ -14,7 +14,6 @@ describe 'avst_tools_installations::avst_package_to_install', :type => 'define' 
             should contain_package(package_to_install).with(
                 'ensure' => package_ensure,
                 )
-            should_not contain_file
         end
     end
 

@@ -23,7 +23,6 @@ describe 'avst_tools_installations', :type => 'class' do
       should contain_avst_tools_installations__avst_tarball_to_install('jvmtop').with(
         'download_url' => 'download_url'
         )
-      should_not contain_avst_tools_installations__avst_package_to_install
     end
   end
   
@@ -35,7 +34,6 @@ describe 'avst_tools_installations', :type => 'class' do
       should contain_avst_tools_installations__avst_package_to_install('jvmtop').with(
         'package_ensure' => 'latest'
         )
-      should_not contain_avst_tools_installations__avst_tarball_to_install
     end
   end
 

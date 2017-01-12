@@ -16,9 +16,9 @@ INSTANCE_USER_LINE=`grep INSTANCE_USER /opt/${INSTANCE_NAME}/avst-app.cfg.sh`
 RUN_AS_USER=`echo ${INSTANCE_USER_LINE:-hosting} | sed s/'INSTANCE_USER=//g'`
 
 if [[ `whoami` == "${RUN_AS_USER}" ]]; then
-    sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+    sh <%= "#{@extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
 else
-    sudo -u "${RUN_AS_USER}" sh <%= "#{extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
+    sudo -u "${RUN_AS_USER}" sh <%= "#{@extract_location}/jvmtop.sh --pid ${INSTANCE_PID}" %>
 fi
 
 
