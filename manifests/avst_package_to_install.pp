@@ -8,7 +8,7 @@ define avst_tools_installations::avst_package_to_install(
     $script_group         = 'root',
     $script_mask          = '755',
 ) {
-    
+
     if (!defined(Package[$package_name])) {
         package { $package_name:
               ensure => $package_ensure,
