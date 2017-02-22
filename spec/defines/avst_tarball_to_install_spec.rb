@@ -24,7 +24,8 @@ describe 'avst_tools_installations::avst_tarball_to_install', :type => 'define' 
         }}
         it do
             should contain_exec("download_#{tool_to_install}_tarball").with(
-                'command'   => "cd #{download_location} && #{download_command} #{download_url}",
+                'command'   => "#{download_command} #{download_url}",
+                'cwd' => "#{download_location}",
                 )
             should contain_exec("extract_#{tool_to_install}_tarball").with(
                 'command'     => "#{extract_command} #{download_location}/#{tarball_file_name} -C #{extract_location}",
@@ -42,7 +43,8 @@ describe 'avst_tools_installations::avst_tarball_to_install', :type => 'define' 
         }}
         it do
             should contain_exec("download_#{tool_to_install}_tarball").with(
-                'command'   => "cd #{download_location} && #{download_command} #{download_url}",
+                'command'   => "#{download_command} #{download_url}",
+                'cwd' => "#{download_location}",
                 )
             should contain_exec("extract_#{tool_to_install}_tarball").with(
                 'command'     => "#{extract_command} #{download_location}/#{tarball_file_name} -C #{extract_location}",
