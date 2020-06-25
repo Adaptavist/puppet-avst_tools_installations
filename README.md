@@ -1,4 +1,5 @@
 # avst_tools_installations Module
+[![Build Status](https://travis-ci.org/Adaptavist/puppet-avst_tools_installations.svg?branch=master)](https://travis-ci.org/Adaptavist/puppet-avst_tools_installations)
 
 ## Overview
 
