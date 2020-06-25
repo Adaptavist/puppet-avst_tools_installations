@@ -20,8 +20,7 @@ define avst_tools_installations::avst_tarball_to_install (
           cwd       => $download_location,
           logoutput => on_failure,
           unless    => ["test -f ${download_location}/${tarball_file_name}"],
-  } ->
-  exec {
+  } -> exec {
       "extract_${name}_tarball":
           command   => "${extract_command} ${download_location}/${tarball_file_name} -C ${extract_location}",
           logoutput => on_failure,
